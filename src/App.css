@@ -82,3 +82,11 @@ input[type=text]:focus {
   margin-right:5px;
 }
 
+.commitCard {
+  border: 1px solid;
+  border-color:rgb(182, 182, 182);
+  padding:15px 10px;
+  margin-bottom:10px;
+  max-width:400px;
+}
+

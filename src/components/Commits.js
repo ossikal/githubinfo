@@ -1,11 +1,50 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-function Commits(props) {
-    
-    return (
-       <h1>Commits here</h1> 
-    )
+
+class Commits extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+           
+        };
+    }
+
+
+    formatDate(ISOdate) {
+        let date = new Date(ISOdate);
+        const m = date.getMonth() + 1; 
+        const d = date.getDate();  
+        const y = date.getFullYear();
+        const hours = date.getHours();
+        let mins = date.getMinutes();
+
+        if (mins.toString().length < 2) {
+            mins = "0" + mins;
+        }
+
+        let fulldate = d + "." + m + "." + y + " " + hours + "." + mins;
+        console.log(mins.toString().length)
+        return fulldate;
+    }
+
+    render() {
+
+        //Map 10 latest commits
+        const commits = this.props.commits.slice(0,10).map(r => (
+            <div className="commitCard" key={r.id}>
+                <p>{r.commit.author.name}</p>
+                <p>{[this.formatDate(r.commit.author.date)]}</p>
+                <p>Message: {r.commit.message}</p>
+            </div>
+        ))
+        
+        return ( 
+            <div>
+                {commits}
+            </div>  
+        )
+    }
 }
   
 export default Commits;

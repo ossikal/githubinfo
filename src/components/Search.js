@@ -9,7 +9,8 @@ class Search extends React.Component {
             search: "",
             allResults: [],
             error: "",
-            isLoading: false
+            isLoading: false,
+            resultsVisibility:true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -48,6 +49,10 @@ class Search extends React.Component {
 
     //getResults fetches the API data and saves it to the state
     getResults() {
+        this.setState({
+            resultsVisibility: true
+        })
+
         fetch("https://api.github.com/users/" + this.state.search + "/repos")
             .then(this.checkStatus)
             .then(this.parseJSON)
@@ -88,6 +93,7 @@ class Search extends React.Component {
                 <div className="results">
                     <Results 
                         name={this.state.allResults}
+                        resultsVisibility={this.state.resultsVisibility}
                     />
                     <h3>{this.state.error}</h3>
                 </div>
