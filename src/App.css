@@ -39,7 +39,7 @@ input[type=text] {
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
   max-width:350px;
-  width:75%;
+  width:80%;
   margin-bottom:30px;
 }
 
@@ -79,6 +79,9 @@ input[type=text]:focus {
 
 .resultCard:hover {
   text-decoration: underline;
+  background: rgb(243, 243, 243);
+  transition: ease-in 0.1s;
+  padding-left:16px;
 }
 
 .arrow {
@@ -122,4 +125,12 @@ input[type=text]:focus {
   color:white;
   cursor: pointer;
   transition: ease-in 0.1s;
+}
+
+.spinner {
+  color:rgb(0, 135, 255);
+}
+
+.spinnercont {
+  text-align: center;
 }

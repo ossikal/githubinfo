@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import arrowright from "../img/arrow-right.svg"
 import Commits from "./Commits"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'

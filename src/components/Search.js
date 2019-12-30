@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Results from "./Results"
+import LoadingSpinner from "./LoadingSpinner"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
@@ -12,7 +13,8 @@ class Search extends React.Component {
             allResults: [],
             error: "",
             isLoading: false,
-            resultsVisibility:false
+            resultsVisibility:false,
+            loading:false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,7 +23,7 @@ class Search extends React.Component {
         this.showResults = this.showResults.bind(this)
     }
 
-
+    //Called from child component
     handler() {
         this.setState({
           resultsVisibility: false
@@ -67,6 +69,7 @@ class Search extends React.Component {
     //getResults fetches the API data and saves it to the state
     getResults() {
         this.setState({
+            loading:true,
             resultsVisibility: true
         })
 
@@ -76,8 +79,11 @@ class Search extends React.Component {
 
             //Successful fetch
             .then(function(data) {
-                this.setState({allResults: data })
-                this.setState({error: ""})
+                this.setState({
+                    allResults: data,
+                    error: "",
+                    loading:false
+                })
             }.bind(this))
 
             //Error handling
@@ -90,24 +96,29 @@ class Search extends React.Component {
             
 
     render() {
+        const loading = this.state.loading;
         
         return (
             <div className="wrap">
-                <input 
-                    type="text" 
-                    name="user-search" 
-                    id="search" 
-                    placeholder="Search for a Github user..."
-                    onChange={this.handleChange}
-                    onKeyDown={this.handleKeyDown}
-                />
+                <div className="searchcontainer">
+                    <input 
+                        type="text" 
+                        name="user-search" 
+                        id="search" 
+                        placeholder="Search for a Github user..."
+                        onChange={this.handleChange}
+                        onKeyDown={this.handleKeyDown}
+                        autofocus="true"
+                    />
 
-                <button 
-                id="search-button"
-                onClick={() => {this.getResults()}}>
-                <FontAwesomeIcon icon={faSearch} /></button>
-    
+                    <button 
+                    id="search-button"
+                    onClick={() => {this.getResults()}}>
+                    <FontAwesomeIcon icon={faSearch} />
+                    </button>
+                </div>
                 <div className="results">
+                    {loading ? <LoadingSpinner /> :
                     <Results 
                         name={this.state.allResults}
                         resultsVisibility={this.state.resultsVisibility}
@@ -115,6 +126,7 @@ class Search extends React.Component {
                         handler={this.handler}
                         showResults={this.showResults}
                     />
+                    }
                     <h3>{this.state.error}</h3>
                 </div>
             </div>
