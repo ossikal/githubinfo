@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Results from "./Results"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 class Search extends React.Component {
     constructor() {
@@ -10,11 +12,26 @@ class Search extends React.Component {
             allResults: [],
             error: "",
             isLoading: false,
-            resultsVisibility:true
+            resultsVisibility:false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.getResults = this.getResults.bind(this);
+        this.handler = this.handler.bind(this)
+        this.showResults = this.showResults.bind(this)
+    }
+
+
+    handler() {
+        this.setState({
+          resultsVisibility: false
+        })
+    }
+    
+    showResults() {
+        this.setState({
+          resultsVisibility: true
+        })
     }
 
     //Handles the search input change
@@ -88,12 +105,15 @@ class Search extends React.Component {
                 <button 
                 id="search-button"
                 onClick={() => {this.getResults()}}>
-                Search</button>
+                <FontAwesomeIcon icon={faSearch} /></button>
     
                 <div className="results">
                     <Results 
                         name={this.state.allResults}
                         resultsVisibility={this.state.resultsVisibility}
+                        search={this.state.search}
+                        handler={this.handler}
+                        showResults={this.showResults}
                     />
                     <h3>{this.state.error}</h3>
                 </div>

@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import arrowright from "../img/arrow-right.svg"
 import Commits from "./Commits"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 
 class Results extends React.Component {
@@ -10,11 +12,11 @@ class Results extends React.Component {
         this.state = {
            commitResults: [],
            error: "",
-           resultsVisibility:this.props.resultsVisibility
+           commitsVisibility: false
         };
     }
 
-
+    
     //Check HTTP status for fetch
     checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
@@ -33,6 +35,10 @@ class Results extends React.Component {
 
     //Get list of commits, triggered on click of the search result
     getCommits(commit_url) {
+        this.setState({
+            commitsVisibility: true
+        })
+
         //Cut unnecessary part from URL
         commit_url = commit_url.substring(0, commit_url.length - 6)
 
@@ -52,31 +58,38 @@ class Results extends React.Component {
                 this.setState({error: "Not found"})
                 this.setState({commitResults: [] })
             }.bind(this))
-
-        this.setState({
-            resultsVisibility: false
-        })
+            
     }
+
 
     render() {
         
         //Map search results
-        const names = this.props.name.map(r => (
-            <div className="resultCard" key={r.id} onClick={() => {this.getCommits(r.commits_url)}}>
+        const results = this.props.name.map(r => (
+            <div className="resultCard" key={r.id} onClick={() => {this.getCommits(r.commits_url); this.props.handler();}}>
                 {r.name}
-                <img src={arrowright} alt="arrow-right" width="13px" className="arrow" />
+                <span className="arrow"><FontAwesomeIcon icon={faChevronRight} /></span>
             </div>
         ))
 
         return ( 
             <div>
                 <div>
-                    {this.state.resultsVisibility && names}
+                    {this.props.resultsVisibility && <h2>Repositories for {this.props.search}</h2>}
+
+                    {this.state.commitsVisibility && !this.props.resultsVisibility &&
+                    <button className="backBtn" onClick={() => {
+                        this.props.showResults()}}><FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                    }
+                    
+                    {this.props.resultsVisibility && results}
                 </div>
                 <div>
+                    {!this.props.resultsVisibility && 
                     <Commits
                         commits={this.state.commitResults}
-                    />
+                    />}
                 </div>
             </div>
         )
