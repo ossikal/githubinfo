@@ -92,8 +92,13 @@ input[type=text]:focus {
   border-radius:3px;
   padding:15px 10px;
   margin-bottom:10px;
-  width:95%;
-  max-width:500px;
+  max-width:95%;
+  width:500px;
+}
+
+.commitCard h4 {
+  overflow-wrap: break-word;
+  font-size:0.95em;
 }
 
 .commitCard img {
