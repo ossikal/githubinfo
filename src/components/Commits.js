@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 
 class Commits extends React.Component {
@@ -34,7 +33,7 @@ class Commits extends React.Component {
         const commits = this.props.commits.slice(0,10).map(r => (
             <div className="commitCard" key={r.id}>
                 <h4>{r.commit.message}</h4>
-                <img src={r.author && r.author.avatar_url}></img>
+                <img src={r.author && r.author.avatar_url} alt="Author of the commit"></img>
                 <p>{r.commit.author.name}</p>
                 <p>{[this.formatDate(r.commit.author.date)]}</p>
             </div>
@@ -42,6 +41,7 @@ class Commits extends React.Component {
         
         return ( 
             <div>
+                {this.props.commitsVisibility && <h2>Commits</h2>}
                 <div>
                     {commits}
                 </div>  

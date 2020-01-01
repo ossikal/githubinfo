@@ -23,6 +23,10 @@ header {
   margin-bottom:20px;
 }
 
+header h1 {
+  font-size:180%;
+}
+
 .wrap {
   max-width:900px;
   margin:0 auto;
@@ -31,7 +35,7 @@ header {
 }
 
 input[type=text] {
-  padding: 12px 20px;
+  padding: 13px 25px;
   margin: 8px 0;
   box-sizing: border-box;
   border: 2px solid rgb(197, 197, 197);
@@ -49,7 +53,7 @@ input[type=text]:focus {
 }
 
 #search-button {
-  padding:14px 22px;
+  padding:15px 22px;
   border-top-right-radius:50px;
   border-bottom-right-radius:50px;
   color:white;

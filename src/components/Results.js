@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Commits from "./Commits"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -11,11 +10,11 @@ class Results extends React.Component {
         this.state = {
            commitResults: [],
            error: "",
-           commitsVisibility: false
+           commitsVisibility: false,
+           search: this.props.search
         };
     }
 
-    
     //Check HTTP status for fetch
     checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
@@ -65,29 +64,35 @@ class Results extends React.Component {
         
         //Map search results
         const results = this.props.name.map(r => (
-            <div className="resultCard" key={r.id} onClick={() => {this.getCommits(r.commits_url); this.props.handler();}}>
+
+            <div className="resultCard" key={r.id} onClick={() => {this.getCommits(r.commits_url); this.props.switchResultsVisibility();}}>
                 {r.name}
                 <span className="arrow"><FontAwesomeIcon icon={faChevronRight} /></span>
             </div>
+
         ))
 
         return ( 
             <div>
-                <div>
-                    {this.props.resultsVisibility && <h2>Repositories for {this.props.search}</h2>}
+                {this.props.resultsVisibility && 
+                    <div className="repositoriesContainer">
+                        <h2>Repositories for {this.state.search}</h2>
+                        
+                        {results}
+                    </div>
+                }
 
-                    {this.state.commitsVisibility && !this.props.resultsVisibility &&
+                {this.state.commitsVisibility && !this.props.resultsVisibility &&
                     <button className="backBtn" onClick={() => {
-                        this.props.showResults()}}><FontAwesomeIcon icon={faArrowLeft} />
+                        this.props.switchResultsVisibility()}}><FontAwesomeIcon icon={faArrowLeft} />
                     </button>
-                    }
-                    
-                    {this.props.resultsVisibility && results}
-                </div>
-                <div>
+                }
+
+                <div className="commitsContainer">
                     {!this.props.resultsVisibility && 
                     <Commits
                         commits={this.state.commitResults}
+                        commitsVisibility={this.state.commitsVisibility}
                     />}
                 </div>
             </div>

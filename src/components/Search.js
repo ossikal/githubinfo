@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Results from "./Results"
 import LoadingSpinner from "./LoadingSpinner"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,23 +18,16 @@ class Search extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.getResults = this.getResults.bind(this);
-        this.handler = this.handler.bind(this)
-        this.showResults = this.showResults.bind(this)
+        this.switchResultsVisibility = this.switchResultsVisibility.bind(this)
     }
 
-    //Called from child component
-    handler() {
+    //Called from the results component
+    switchResultsVisibility() {
         this.setState({
-          resultsVisibility: false
+          resultsVisibility: !this.state.resultsVisibility
         })
     }
     
-    showResults() {
-        this.setState({
-          resultsVisibility: true
-        })
-    }
-
     //Handles the search input change
     handleChange(event) {
         this.setState({
@@ -66,14 +58,15 @@ class Search extends React.Component {
         return response.json()
     }
 
-    //getResults fetches the API data and saves it to the state
+    //Fetches the API data and saves it to the state
     getResults() {
         this.setState({
             loading:true,
             resultsVisibility: true
         })
 
-        fetch("https://api.github.com/users/" + this.state.search + "/repos")
+        //Fetch 100 repositories
+        fetch("https://api.github.com/users/" + this.state.search + "/repos?per_page=100")
             .then(this.checkStatus)
             .then(this.parseJSON)
 
@@ -112,19 +105,19 @@ class Search extends React.Component {
                     />
 
                     <button 
-                    id="search-button"
-                    onClick={() => {this.getResults()}}>
-                    <FontAwesomeIcon icon={faSearch} />
+                        id="search-button"
+                        onClick={() => {this.getResults()}}>
+                        <FontAwesomeIcon icon={faSearch} />
                     </button>
                 </div>
+
                 <div className="results">
                     {loading ? <LoadingSpinner /> :
                     <Results 
                         name={this.state.allResults}
                         resultsVisibility={this.state.resultsVisibility}
                         search={this.state.search}
-                        handler={this.handler}
-                        showResults={this.showResults}
+                        switchResultsVisibility={this.switchResultsVisibility}
                     />
                     }
                     <h3>{this.state.error}</h3>
