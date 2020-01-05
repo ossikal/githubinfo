@@ -43,7 +43,7 @@ class Results extends React.Component {
         fetch(commit_url)
             .then(this.checkStatus)
             .then(this.parseJSON)
-
+            
             //Successful fetch
             .then(function(data) {
                 this.setState({commitResults: data })
@@ -63,7 +63,7 @@ class Results extends React.Component {
     render() {
         
         //Map search results
-        const results = this.props.name.map(r => (
+        const results = this.props.searchResults.map(r => (
 
             <div className="resultCard" key={r.id} onClick={() => {this.getCommits(r.commits_url); this.props.switchResultsVisibility();}}>
                 {r.name}
@@ -76,7 +76,7 @@ class Results extends React.Component {
             <div>
                 {this.props.resultsVisibility && 
                     <div className="repositoriesContainer">
-                        <h2>Repositories for {this.state.search}</h2>
+                        <h2>Repositories of {this.state.search}</h2>
                         
                         {results}
                     </div>

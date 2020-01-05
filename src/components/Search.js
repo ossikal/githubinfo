@@ -42,8 +42,16 @@ class Search extends React.Component {
         }
       }
 
+
+
     //Check HTTP status for fetch
     checkStatus(response) {
+        let link = response.headers.get('Link');
+        if (link !== null) {
+            let links = link.split(',');
+            console.log(links[1])
+        }
+      
         if (response.status >= 200 && response.status < 300) {
           return response
         } else {
@@ -66,12 +74,16 @@ class Search extends React.Component {
         })
 
         //Fetch 100 repositories
-        fetch("https://api.github.com/users/" + this.state.search + "/repos?per_page=100")
+        fetch("https://api.github.com/users/" + this.state.search + "/repos?page=1&per_page=30")
             .then(this.checkStatus)
             .then(this.parseJSON)
 
             //Successful fetch
             .then(function(data) {
+                if (data.length > 99) {
+                    console.log(data.length)
+                }
+                
                 this.setState({
                     allResults: data,
                     error: "",
@@ -93,7 +105,7 @@ class Search extends React.Component {
         
         return (
             <div className="wrap">
-                <div className="searchcontainer">
+                <div className="searchContainer">
                     <input 
                         type="text" 
                         name="user-search" 
@@ -101,7 +113,7 @@ class Search extends React.Component {
                         placeholder="Search for a Github user..."
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
-                        autofocus="true"
+                        autoFocus={true}
                     />
 
                     <button 
@@ -114,7 +126,7 @@ class Search extends React.Component {
                 <div className="results">
                     {loading ? <LoadingSpinner /> :
                     <Results 
-                        name={this.state.allResults}
+                        searchResults={this.state.allResults}
                         resultsVisibility={this.state.resultsVisibility}
                         search={this.state.search}
                         switchResultsVisibility={this.switchResultsVisibility}

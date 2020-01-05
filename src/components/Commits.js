@@ -23,7 +23,6 @@ class Commits extends React.Component {
         }
 
         let fulldate = d + "." + m + "." + y + " " + hours + "." + mins;
-        console.log(mins.toString().length)
         return fulldate;
     }
 
@@ -31,7 +30,7 @@ class Commits extends React.Component {
 
         //Map 10 latest commits
         const commits = this.props.commits.slice(0,10).map(r => (
-            <div className="commitCard" key={r.id}>
+            <div className="commitCard" key={r.node_id}>
                 <h4>{r.commit.message}</h4>
                 <img src={r.author && r.author.avatar_url} alt="Author of the commit"></img>
                 <p>{r.commit.author.name}</p>
@@ -41,7 +40,7 @@ class Commits extends React.Component {
         
         return ( 
             <div>
-                {this.props.commitsVisibility && <h2>Commits</h2>}
+                {this.props.commitsVisibility && <h2>Latest 10 commits</h2>}
                 <div>
                     {commits}
                 </div>  
