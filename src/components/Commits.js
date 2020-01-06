@@ -5,9 +5,60 @@ class Commits extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           
+            commitResults: [],
+            error: ""
         };
     }
+
+    componentDidMount() {
+        this.getCommits()
+    }
+
+
+    //Check HTTP status for fetch
+    checkStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+          return response
+        } else {
+          var error = new Error(response.statusText)
+          error.response = response
+          throw error
+        }
+    }
+    
+    //Parse JSON
+    parseJSON(response) {
+        return response.json()
+    }
+
+
+    //Get list of commits, triggered on click of the search result
+    getCommits() {
+        let commit_url = this.props.commit_url;
+
+        //Cut unnecessary part from URL
+        commit_url = commit_url.substring(0, commit_url.length - 6)
+
+        fetch(commit_url)
+            .then(this.checkStatus)
+            .then(this.parseJSON)
+            
+            //Successful fetch
+            .then(function(data) {
+                this.setState({commitResults: data })
+                this.setState({error: ""})
+            }.bind(this))
+
+            //Error handling
+            .catch(function(error) {
+                //console.log('request failed', error)
+                this.setState({error: "Not found"})
+                this.setState({commitResults: [] })
+            }.bind(this))
+            
+    }
+
+
 
     //Format ISO date to readable format
     formatDate(ISOdate) {
@@ -29,7 +80,7 @@ class Commits extends React.Component {
     render() {
 
         //Map 10 latest commits
-        const commits = this.props.commits.slice(0,10).map(r => (
+        const commits = this.state.commitResults.slice(0,10).map(r => (
             <div className="commitCard" key={r.node_id}>
                 <h4>{r.commit.message}</h4>
                 <img src={r.author && r.author.avatar_url} alt="Author of the commit"></img>
