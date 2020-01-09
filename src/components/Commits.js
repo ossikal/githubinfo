@@ -1,4 +1,5 @@
 import React from "react";
+import LoadingSpinner from "./LoadingSpinner"
 
 // The commits component fetches commit data and displays it, based on what the user clicks in the results
 
@@ -8,7 +9,8 @@ class Commits extends React.Component {
         super(props);
         this.state = {
             commitResults: [],
-            error: ""
+            error: "",
+            loading:false
         };
     }
 
@@ -36,6 +38,7 @@ class Commits extends React.Component {
 
     //Get list of commits, triggered on click of the search result
     getCommits() {
+        this.setState({loading:true});
         let commit_url = this.props.commit_url;
 
         //Cut unnecessary part from URL
@@ -47,8 +50,11 @@ class Commits extends React.Component {
             
             //Successful fetch
             .then(function(data) {
-                this.setState({commitResults: data })
-                this.setState({error: ""})
+                this.setState({
+                    commitResults: data,
+                    error: "",
+                    loading:false
+                })
             }.bind(this))
 
             //Error handling
@@ -80,6 +86,7 @@ class Commits extends React.Component {
     }
 
     render() {
+        const loading = this.state.loading;
 
         //Map 10 latest commits
         const commits = this.state.commitResults.slice(0,10).map(r => (
@@ -92,11 +99,14 @@ class Commits extends React.Component {
         ))
         
         return ( 
+            
             <div>
-                {this.props.commitsVisibility && <h2>Latest 10 commits</h2>}
+                
+                {loading ? <LoadingSpinner /> : this.props.commitsVisibility && <h2>Latest 10 commits</h2>}
                 <div>
-                    {commits}
+                    {commits} 
                 </div>  
+                
             </div>
         )
     }

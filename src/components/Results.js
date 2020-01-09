@@ -3,6 +3,7 @@ import Commits from "./Commits"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+// The results component generates results based on the search component's data
 
 class Results extends React.Component {
     constructor(props) {

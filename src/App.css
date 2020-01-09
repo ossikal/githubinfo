@@ -63,8 +63,8 @@ input[type=text] {
   box-sizing: border-box;
   border: 2px solid rgb(197, 197, 197);
   border-right:none;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-top-left-radius: 22px;
+  border-bottom-left-radius: 22px;
   width:80%;
   margin-bottom:30px;
 }
@@ -78,8 +78,8 @@ input[type=text]:focus {
 #search-button {
   width:15%;
   padding:15px 20px;
-  border-top-right-radius:20px;
-  border-bottom-right-radius:20px;
+  border-top-right-radius:22px;
+  border-bottom-right-radius:22px;
   color:white;
   cursor:pointer;
   background:rgb(0, 135, 255);
