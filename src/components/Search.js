@@ -185,10 +185,15 @@ class Search extends React.Component {
                         switchResultsVisibility={this.switchResultsVisibility}
                     />
                     }
-                    {!loading && this.state.resultsVisibility && this.state.navVisibility && 
-                    <button onClick={this.nextPage} className="pageBtn">Next <FontAwesomeIcon icon={faChevronRight} /></button>}
-                    {!loading && this.state.resultsVisibility && this.state.navVisibility && 
-                    <button onClick={this.prevPage} className="pageBtn"><FontAwesomeIcon icon={faChevronLeft} />Previous</button>}
+
+                    <div className="navWrap">
+                        {!loading && this.state.resultsVisibility && this.state.currentPage !== 1 &&
+                        <button onClick={this.prevPage} className="pageBtn prev"><FontAwesomeIcon icon={faChevronLeft} /> Previous</button>}
+
+                        {!loading && this.state.resultsVisibility && this.state.navVisibility && 
+                        <button onClick={this.nextPage} className="pageBtn next">Next <FontAwesomeIcon icon={faChevronRight} /></button>}
+                    </div>
+
                     <h3>{this.state.error}</h3>
                 </div>
             </div>

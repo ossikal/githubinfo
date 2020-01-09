@@ -199,6 +199,14 @@ input[type=text]:focus {
   cursor: pointer;
 }
 
+.prev {
+  float:left;
+  margin-right:10px;
+}
+.next {
+  float:right;
+}
+
 
 @media only screen and (max-width: 600px) {
   .wrap {
@@ -207,10 +215,11 @@ input[type=text]:focus {
     padding:0;
   }
   .resultCard {
-    width:100%;
+    width:80vw;
+    max-width:100%;
   }
   .commitCard {
-    width:100%;
+    width:80vw;
   }
 
   .searchContainer {
