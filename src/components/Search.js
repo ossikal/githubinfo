@@ -2,7 +2,9 @@ import React from "react";
 import Results from "./Results"
 import LoadingSpinner from "./LoadingSpinner"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+
+// The search component handles the search bar and fetches result data
 
 class Search extends React.Component {
     constructor() {
@@ -13,12 +15,19 @@ class Search extends React.Component {
             error: "",
             isLoading: false,
             resultsVisibility:false,
-            loading:false
+            navVisibility:false,
+            loading:false,
+            currentPage:1,
+            lastPage: false
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.getResults = this.getResults.bind(this);
         this.switchResultsVisibility = this.switchResultsVisibility.bind(this)
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.getPageNumbers = this.getPageNumbers.bind(this);
     }
 
     //Called from the results component
@@ -38,26 +47,23 @@ class Search extends React.Component {
     //Handles enter key press on search input
     handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-          this.getResults()
+            this.setState({currentPage:1}, function() {
+                this.getResults()
+            });
         }
-      }
+    }
 
 
 
     //Check HTTP status for fetch
     checkStatus(response) {
-        let link = response.headers.get('Link');
-        if (link !== null) {
-            let links = link.split(',');
-            console.log(links[1])
-        }
-      
         if (response.status >= 200 && response.status < 300) {
-          return response
+            return response
+
         } else {
-          var error = new Error(response.statusText)
-          error.response = response
-          throw error
+            var error = new Error(response.statusText)
+            error.response = response
+            throw error
         }
     }
     
@@ -66,30 +72,56 @@ class Search extends React.Component {
         return response.json()
     }
 
+    //Check if current page is the last page
+    getPageNumbers(response) {
+        let link = response.headers.get('Link');
+        console.log(link)
+        if (link !== null) {
+            
+            let isNotLastPage = link.indexOf("last") !== -1;
+
+            if (isNotLastPage === false) {
+                this.setState({lastPage: true})
+            }
+        }
+        return response
+    }
+
     //Fetches the API data and saves it to the state
-    getResults() {
+    getResults() { 
         this.setState({
             loading:true,
-            resultsVisibility: true
+            resultsVisibility: true,
+            navVisibility: true,
+            lastPage:false,
         })
+        
+        let url = "https://api.github.com/users/" + this.state.search + "/repos?page=" + this.state.currentPage + "&per_page=30"
 
         //Fetch 100 repositories
-        fetch("https://api.github.com/users/" + this.state.search + "/repos?page=1&per_page=30")
+        fetch(url)
             .then(this.checkStatus)
+            .then(this.getPageNumbers)
             .then(this.parseJSON)
 
             //Successful fetch
             .then(function(data) {
-                if (data.length > 99) {
-                    console.log(data.length)
+                //If this is the last page hide page navigation
+                if (this.state.lastPage === true || data.length < 30) {
+                    console.log("Last page")
+                    this.setState({navVisibility:false})
                 }
+
                 
                 this.setState({
                     allResults: data,
                     error: "",
                     loading:false
                 })
+
+                
             }.bind(this))
+
 
             //Error handling
             .catch(function(error) {
@@ -97,6 +129,22 @@ class Search extends React.Component {
                 this.setState({error: "Not found"})
                 this.setState({allResults: [] })
             }.bind(this))
+    }
+
+    prevPage() {
+        this.setState({
+            currentPage: this.state.currentPage - 1
+        }, function() {
+            this.getResults()
+        })
+    }
+
+    nextPage() {
+        this.setState({
+            currentPage: this.state.currentPage + 1
+        }, function() {
+            this.getResults()
+        })
     }
             
 
@@ -118,7 +166,12 @@ class Search extends React.Component {
 
                     <button 
                         id="search-button"
-                        onClick={() => {this.getResults()}}>
+                        onClick={() => {
+                            this.setState({currentPage:1}, function() {
+                                this.getResults()
+                            });
+                            
+                            }}>
                         <FontAwesomeIcon icon={faSearch} />
                     </button>
                 </div>
@@ -132,6 +185,10 @@ class Search extends React.Component {
                         switchResultsVisibility={this.switchResultsVisibility}
                     />
                     }
+                    {!loading && this.state.resultsVisibility && this.state.navVisibility && 
+                    <button onClick={this.nextPage} className="pageBtn">Next <FontAwesomeIcon icon={faChevronRight} /></button>}
+                    {!loading && this.state.resultsVisibility && this.state.navVisibility && 
+                    <button onClick={this.prevPage} className="pageBtn"><FontAwesomeIcon icon={faChevronLeft} />Previous</button>}
                     <h3>{this.state.error}</h3>
                 </div>
             </div>

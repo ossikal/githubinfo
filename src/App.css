@@ -17,15 +17,18 @@ h2 {
 }
 
 header {
+  background: #4B79A1;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #1E53A7, #015DAE);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #1E53A7, #015DAE);
+
   margin:0;
   padding:20px;
   color:white;
-  background:#2a2b5f;
   margin-bottom:20px;
 }
 
 h1,h2,h3,h4 {
-  color:#2a2b5f;
+  color:rgb(0, 51, 95);
 }
 
 
@@ -49,6 +52,9 @@ header h1 {
 }
 
 .searchContainer {
+  margin:0 auto;
+  width:400px;
+  max-width:100%
 }
 
 input[type=text] {
@@ -57,26 +63,27 @@ input[type=text] {
   box-sizing: border-box;
   border: 2px solid rgb(197, 197, 197);
   border-right:none;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-  width:300px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width:80%;
   margin-bottom:30px;
 }
 
 input[type=text]:focus {
   border: 2px solid rgb(0, 135, 255);
   transition: ease-in-out 0.2s;
-  box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.05);
+  box-shadow: 0px 5px 5px 0px rgba(3, 58, 240, 0.05);
 }
 
 #search-button {
-  padding:15px 22px;
-  border-top-right-radius:50px;
-  border-bottom-right-radius:50px;
+  width:15%;
+  padding:15px 20px;
+  border-top-right-radius:20px;
+  border-bottom-right-radius:20px;
   color:white;
   cursor:pointer;
   background:rgb(0, 135, 255);
-  box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.05);
+  box-shadow: 0px 5px 5px 0px rgba(3, 58, 240,0.05);
 }
 
 #search-button:hover {
@@ -92,6 +99,11 @@ input[type=text]:focus {
 
 .results {
   margin-bottom:50px;
+  display:flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .resultCard {
@@ -175,24 +187,45 @@ input[type=text]:focus {
   text-align: center;
 }
 
+.pageBtn {
+  padding:12px;
+  background:rgb(0, 135, 255);
+  color:white;
+  border-radius: 10px;
+}
+
+.pageBtn:hover {
+  background: rgb(0, 112, 211);
+  cursor: pointer;
+}
+
 
 @media only screen and (max-width: 600px) {
   .wrap {
-    max-width:85%;
-    width:auto;
-    padding-left:5px;
-    padding-right:20px;
-    display:block;
+    max-width:100%;
+    width:85%;
+    padding:0;
   }
-  .commitCard {
-    max-width:80%;
-    width:80%;
-  }
-  input[type=text] {
-    width:75%;
-  }
-  .commitCard {
-    max-width:99%;
+  .resultCard {
     width:100%;
+  }
+  .commitCard {
+    width:100%;
+  }
+
+  .searchContainer {
+    width:100%;
+  }
+
+  .repositoriesContainer {
+    width:100%;
+  }
+
+  input[type=text] {
+    width:82%;
+  }
+
+  #search-button {
+    width:18%;
   }
 }

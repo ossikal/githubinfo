@@ -1,5 +1,7 @@
 import React from "react";
 
+// The commits component fetches commit data and displays it, based on what the user clicks in the results
+
 
 class Commits extends React.Component {
     constructor(props) {

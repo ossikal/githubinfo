@@ -2,6 +2,9 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
+/* LoadingSpinner generates an icon representing that the results are being loaded
+Activated by making it visible
+*/
 
 class LoadingSpinner extends React.Component {
     constructor(props) {
