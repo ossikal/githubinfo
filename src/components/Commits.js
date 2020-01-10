@@ -92,21 +92,18 @@ class Commits extends React.Component {
         const commits = this.state.commitResults.slice(0,10).map(r => (
             <div className="commitCard" key={r.node_id}>
                 <h4>{r.commit.message}</h4>
-                <img src={r.author && r.author.avatar_url} alt="Author of the commit"></img>
+                <img src={r.author && r.author.avatar_url} alt="Author of the commit" onError={(e)=>{e.target.onerror = null; e.target.src="https://via.placeholder.com/30"}}></img>
                 <p>{r.commit.author.name}</p>
                 <p>{[this.formatDate(r.commit.author.date)]}</p>
             </div>
         ))
         
         return ( 
-            
             <div>
-                
                 {loading ? <LoadingSpinner /> : this.props.commitsVisibility && <h2>Latest 10 commits</h2>}
                 <div>
                     {commits} 
                 </div>  
-                
             </div>
         )
     }

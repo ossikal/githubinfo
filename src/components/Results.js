@@ -16,7 +16,7 @@ class Results extends React.Component {
         this.switchCommitsVisibility = this.switchCommitsVisibility.bind(this);
     }
     
-
+    // Switches the visibility of the commits
     switchCommitsVisibility() {
         this.setState(prevState => ({
           commitsVisibility: !prevState.commitsVisibility
@@ -25,7 +25,7 @@ class Results extends React.Component {
 
     render() {
         
-        //Map search results
+        //Map repository search results
         const results = this.props.searchResults.map(r => (
 
             <div className="resultCard" key={r.id} onClick={() => {

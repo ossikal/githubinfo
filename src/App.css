@@ -61,7 +61,7 @@ input[type=text] {
   padding: 13px 25px;
   margin: 8px 0;
   box-sizing: border-box;
-  border: 2px solid rgb(197, 197, 197);
+  border: 1px solid rgb(197, 197, 197);
   border-right:none;
   border-top-left-radius: 22px;
   border-bottom-left-radius: 22px;
@@ -70,20 +70,20 @@ input[type=text] {
 }
 
 input[type=text]:focus {
-  border: 2px solid rgb(0, 135, 255);
+  border: 1px solid rgb(0, 135, 255);
   transition: ease-in-out 0.2s;
-  box-shadow: 0px 5px 5px 0px rgba(3, 58, 240, 0.05);
+  box-shadow: 0px 6px 6px 0px rgba(3, 58, 240, 0.08);
 }
 
 #search-button {
   width:15%;
-  padding:15px 20px;
+  padding:14px 20px;
   border-top-right-radius:22px;
   border-bottom-right-radius:22px;
   color:white;
   cursor:pointer;
   background:rgb(0, 135, 255);
-  box-shadow: 0px 5px 5px 0px rgba(3, 58, 240,0.05);
+  box-shadow: 0px 6px 6px 0px rgba(3, 58, 240,0.05);
 }
 
 #search-button:hover {
@@ -98,12 +98,12 @@ input[type=text]:focus {
 
 
 .results {
-  margin-bottom:50px;
   display:flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+  margin-bottom:15px;
 }
 
 .resultCard {
@@ -116,18 +116,18 @@ input[type=text]:focus {
   max-width:100%;
   cursor:pointer;
   color:#0366d6;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.05);
+  transition: all ease-in 0.1s;
 }
 
 .resultCard:hover {
   text-decoration: underline;
   background: rgb(243, 243, 243);
-  transition: ease-in 0.1s;
 }
 
 .resultCard:active {
   background:rgb(0, 135, 255);
   border-color:rgb(0, 135, 255);
-  transition: ease 0.1s;
   color:white;
 }
 
@@ -144,6 +144,7 @@ input[type=text]:focus {
   margin-bottom:10px;
   max-width:95%;
   width:500px;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.05);
 }
 
 .commitCard h4 {
@@ -157,6 +158,7 @@ input[type=text]:focus {
   margin-top:6px;
   margin-right:10px;
   border-radius:3px;
+  font-size:7px;
 }
 
 .backBtn {
@@ -187,16 +189,34 @@ input[type=text]:focus {
   text-align: center;
 }
 
+.navWrap {
+  margin-bottom:30px;
+}
+
 .pageBtn {
   padding:12px;
   background:rgb(0, 135, 255);
   color:white;
   border-radius: 10px;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.05);
+  transition: all ease-in 0.1s;
 }
 
 .pageBtn:hover {
-  background: rgb(0, 112, 211);
+  background:rgb(0, 112, 211);
   cursor: pointer;
+}
+
+.pageBtn:active {
+  background:rgb(88, 88, 88);
+}
+
+.pageNum {
+  color:rgb(136, 136, 136);
+  font-weight: bold;
+  float:left;
+  padding:10px 12px;
+  margin-right:10px;
 }
 
 .prev {
@@ -214,6 +234,11 @@ input[type=text]:focus {
     width:85%;
     padding:0;
   }
+
+  input[type=text] {
+    font-size:0.9em;
+  }
+
   .resultCard {
     width:80vw;
     max-width:100%;
@@ -236,5 +261,7 @@ input[type=text]:focus {
 
   #search-button {
     width:18%;
+    padding-bottom:14px;
+    padding-top:16px;
   }
 }

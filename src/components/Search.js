@@ -30,7 +30,7 @@ class Search extends React.Component {
         this.getPageNumbers = this.getPageNumbers.bind(this);
     }
 
-    //Called from the results component
+    //Called from the results component, switches the visibility of the search results
     switchResultsVisibility() {
         this.setState({
           resultsVisibility: !this.state.resultsVisibility
@@ -54,7 +54,6 @@ class Search extends React.Component {
     }
 
 
-
     //Check HTTP status for fetch
     checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
@@ -75,7 +74,6 @@ class Search extends React.Component {
     //Check if current page is the last page
     getPageNumbers(response) {
         let link = response.headers.get('Link');
-        console.log(link)
         if (link !== null) {
             
             let isNotLastPage = link.indexOf("last") !== -1;
@@ -98,7 +96,7 @@ class Search extends React.Component {
         
         let url = "https://api.github.com/users/" + this.state.search + "/repos?page=" + this.state.currentPage + "&per_page=30"
 
-        //Fetch 100 repositories
+        //Fetch repositories, 30 per page
         fetch(url)
             .then(this.checkStatus)
             .then(this.getPageNumbers)
@@ -112,25 +110,26 @@ class Search extends React.Component {
                     this.setState({navVisibility:false})
                 }
 
-                
                 this.setState({
                     allResults: data,
                     error: "",
                     loading:false
                 })
-
-                
+  
             }.bind(this))
 
 
             //Error handling
             .catch(function(error) {
-                //console.log('request failed', error)
-                this.setState({error: "Not found"})
-                this.setState({allResults: [] })
+                this.setState({
+                    error: "User not found",
+                    allResults: [],
+                    loading:false
+            })
             }.bind(this))
     }
 
+    // Move to the previous page in search results
     prevPage() {
         this.setState({
             currentPage: this.state.currentPage - 1
@@ -139,6 +138,7 @@ class Search extends React.Component {
         })
     }
 
+    // Move to the next page in search results
     nextPage() {
         this.setState({
             currentPage: this.state.currentPage + 1
@@ -186,16 +186,16 @@ class Search extends React.Component {
                     />
                     }
 
-                    <div className="navWrap">
+                    <h3>{this.state.error}</h3>
+                </div>
+                
+                <div className="navWrap">
                         {!loading && this.state.resultsVisibility && this.state.currentPage !== 1 &&
                         <button onClick={this.prevPage} className="pageBtn prev"><FontAwesomeIcon icon={faChevronLeft} /> Previous</button>}
-
+                        {!loading && this.state.resultsVisibility && <span className="pageNum">{this.state.currentPage}</span>}
                         {!loading && this.state.resultsVisibility && this.state.navVisibility && 
                         <button onClick={this.nextPage} className="pageBtn next">Next <FontAwesomeIcon icon={faChevronRight} /></button>}
                     </div>
-
-                    <h3>{this.state.error}</h3>
-                </div>
             </div>
         )
     }  
