@@ -11,7 +11,8 @@ class Results extends React.Component {
         this.state = {
            search: this.props.search,
            commitsUrl: "",
-           commitsVisibility: false
+           commitsVisibility: false,
+           reponame: ""
         };
         this.switchCommitsVisibility = this.switchCommitsVisibility.bind(this);
     }
@@ -29,7 +30,10 @@ class Results extends React.Component {
         const results = this.props.searchResults.map(r => (
 
             <div className="resultCard" key={r.id} onClick={() => {
-                this.setState({commitsUrl: r.commits_url});
+                this.setState({
+                    commitsUrl: r.commits_url,
+                    reponame: r.name
+                });
                 this.switchCommitsVisibility();
                 this.props.switchResultsVisibility();}}>
 
@@ -63,6 +67,7 @@ class Results extends React.Component {
                         commitsVisibility={this.state.commitsVisibility}
                         switchCommitsVisibility={this.switchCommitsVisibility}
                         commit_url={this.state.commitsUrl}
+                        reponame={this.state.reponame}
                     />}
                 </div>
             </div>
