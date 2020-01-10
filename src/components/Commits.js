@@ -100,7 +100,7 @@ class Commits extends React.Component {
         
         return ( 
             <div>
-                {loading ? <LoadingSpinner /> : this.props.commitsVisibility && <h2>Latest 10 commits on {this.props.reponame}</h2>}
+                {loading ? <LoadingSpinner /> : this.props.commitsVisibility && <h2>Latest commits on {this.props.reponame}</h2>}
                 <div>
                     {commits} 
                 </div>  
