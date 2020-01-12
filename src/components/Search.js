@@ -110,11 +110,21 @@ class Search extends React.Component {
                     this.setState({navVisibility:false})
                 }
 
-                this.setState({
-                    allResults: data,
-                    error: "",
-                    loading:false
-                })
+                if (data.length < 1) {
+                    this.setState({
+                        error: "This user has no public repositories",
+                        allResults: [],
+                        loading:false
+                    })
+                } else {
+                    this.setState({
+                        allResults: data,
+                        error: "",
+                        loading:false
+                    })
+                }
+
+                
   
             }.bind(this))
 
@@ -124,7 +134,8 @@ class Search extends React.Component {
                 this.setState({
                     error: "User not found",
                     allResults: [],
-                    loading:false
+                    loading:false,
+                    navVisibility: false
             })
             }.bind(this))
     }
@@ -186,7 +197,7 @@ class Search extends React.Component {
                     />
                     }
 
-                    <h3>{this.state.error}</h3>
+                    <h3 className="error">{this.state.error}</h3>
                 </div>
                 
                 <div className="navWrap">

@@ -96,6 +96,11 @@ input[type=text]:focus {
   transition: ease 0.1s;
 }
 
+.error {
+  text-align:center;
+  padding:10px;
+}
+
 
 .results {
   display:flex;

@@ -1,5 +1,6 @@
 import React from "react";
 import LoadingSpinner from "./LoadingSpinner"
+import PlaceholderImg from "../img/placeholder.png"
 
 // The commits component fetches commit data and displays it, based on what the user clicks in the results
 
@@ -92,7 +93,10 @@ class Commits extends React.Component {
         const commits = this.state.commitResults.slice(0,10).map(r => (
             <div className="commitCard" key={r.node_id}>
                 <h4>{r.commit.message}</h4>
-                <img src={r.author && r.author.avatar_url} alt="Author of the commit" onError={(e)=>{e.target.onerror = null; e.target.src="https://via.placeholder.com/30"}}></img>
+                {r.author !== null ?
+                  <img src={r.author.avatar_url} alt="Author of the commit"></img>
+                  : <img src={PlaceholderImg} alt="Author placeholder"></img>
+                }
                 <p>{r.commit.author.name}</p>
                 <p>{[this.formatDate(r.commit.author.date)]}</p>
             </div>
